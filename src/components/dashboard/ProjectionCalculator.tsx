@@ -62,7 +62,7 @@ export function ProjectionCalculator({ product }: ProjectionCalculatorProps) {
                 <div className="h-[300px] w-full mt-4">
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                            <defs>
+                               <defs>
                                 <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
                                     <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
@@ -88,14 +88,13 @@ export function ProjectionCalculator({ product }: ProjectionCalculatorProps) {
                                 contentStyle={{ backgroundColor: '#020617', borderColor: '#1e293b', color: '#f8fafc' }}
                                 itemStyle={{ color: '#3b82f6' }}
                                 formatter={(value) => [`$${value.toLocaleString()}`, 'Value']}
-                                formatter={(value) => {
-                                    const numericValue = typeof value === "number"
-                                        ? value
-                                        : typeof value === "string"
-                                            ? Number(value)
-                                            : 0;
+                                formatter={(value: number | string | undefined) => {
+                                    const numericValue = Number(value ?? 0);
+                                    const formattedValue = Number.isFinite(numericValue)
+                                        ? numericValue.toLocaleString()
+                                        : "0";
 
-                                    return [`$${Number.isFinite(numericValue) ? numericValue.toLocaleString() : "0"}`, "Value"];
+                                    return [`$${formattedValue}`, "Value"];
                                 }}
                             />
                             <Area
