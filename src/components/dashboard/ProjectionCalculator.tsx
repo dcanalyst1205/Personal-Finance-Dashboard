@@ -88,6 +88,15 @@ export function ProjectionCalculator({ product }: ProjectionCalculatorProps) {
                                 contentStyle={{ backgroundColor: '#020617', borderColor: '#1e293b', color: '#f8fafc' }}
                                 itemStyle={{ color: '#3b82f6' }}
                                 formatter={(value) => [`$${value.toLocaleString()}`, 'Value']}
+                                formatter={(value) => {
+                                    const numericValue = typeof value === "number"
+                                        ? value
+                                        : typeof value === "string"
+                                            ? Number(value)
+                                            : 0;
+
+                                    return [`$${Number.isFinite(numericValue) ? numericValue.toLocaleString() : "0"}`, "Value"];
+                                }}
                             />
                             <Area
                                 type="monotone"
